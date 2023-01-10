@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import { defaultTheme } from './default'
 
 export const globalStyle = css`
   * {
@@ -8,8 +9,9 @@ export const globalStyle = css`
   }
 
   body {
-    background: #333;
-    color: #fff;
+    background: ${defaultTheme.colors.gray[700]};
+    color: ${defaultTheme.colors.gray[100]};
+    -webkit-font-smoothing: antialiased;
   }
 
   body,

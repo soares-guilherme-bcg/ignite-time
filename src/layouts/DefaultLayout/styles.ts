@@ -6,7 +6,7 @@ export const MainContainer = styled('div')`
   margin: 5rem auto;
   padding: 2.5rem;
 
-  background-color: ${(props) => props.theme.colors.gray[700]};
+  background-color: ${(props) => props.theme.colors.gray[600]};
   border-radius: 8px;
 
   display: flex;
