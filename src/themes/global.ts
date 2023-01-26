@@ -9,8 +9,8 @@ export const globalStyle = css`
   }
 
   body {
-    background: ${defaultTheme.colors.gray[700]};
-    color: ${defaultTheme.colors.gray[100]};
+    background: ${defaultTheme.colors['gray-800']};
+    color: ${defaultTheme.colors['gray-100']};
     -webkit-font-smoothing: antialiased;
   }
 

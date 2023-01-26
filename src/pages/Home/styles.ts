@@ -30,21 +30,21 @@ const BaseInput = styled('input')`
   background: transparent;
   height: 2.5rem;
   border: 0;
-  border-bottom: 2px solid ${(props) => props.theme.colors.gray[400]};
+  border-bottom: 2px solid ${(props) => props.theme.colors['gray-400']};
   font-weight: bold;
   font-size: 1.125rem;
   padding: 0 0.5rem;
-  color: ${(props) => props.theme.colors.gray[100]};
+  color: ${(props) => props.theme.colors['gray-100']};
 
   &:focus,
   &:focus-visible {
     box-shadow: none;
     outline: none;
-    border-color: ${(props) => props.theme.colors.green[500]};
+    border-color: ${(props) => props.theme.colors['green-500']};
   }
 
   &::placeholder {
-    color: ${(props) => props.theme.colors.gray[500]};
+    color: ${(props) => props.theme.colors['gray-500']};
   }
 `
 
@@ -70,7 +70,7 @@ export const CountdownContainer = styled('div')`
   gap: 1rem;
 
   span {
-    background-color: ${(props) => props.theme.colors.gray[500]};
+    background-color: ${(props) => props.theme.colors['gray-500']};
     padding: 2rem 1rem;
     border-radius: 8px;
   }
@@ -78,7 +78,7 @@ export const CountdownContainer = styled('div')`
 
 export const Separator = styled('div')`
   padding: 2rem 0;
-  color: ${(props) => props.theme.colors.green[500]};
+  color: ${(props) => props.theme.colors['green-500']};
 
   width: 4rem;
   overflow: hidden;
@@ -101,11 +101,11 @@ export const StartCountDownButton = styled('button')`
 
   cursor: pointer;
 
-  background: ${(props) => props.theme.colors.green[500]};
-  color: ${(props) => props.theme.colors.gray[100]};
+  background: ${(props) => props.theme.colors['green-500']};
+  color: ${(props) => props.theme.colors['gray-100']};
 
   &:not(:disabled):hover {
-    background: ${(props) => props.theme.colors.green[700]};
+    background: ${(props) => props.theme.colors['green-700']};
   }
 
   &:disabled {
