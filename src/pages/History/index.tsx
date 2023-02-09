@@ -1,43 +1,17 @@
-import { useMemo } from 'react'
-import { HistoryContainer, HistoryList, Status } from './styles'
+import { useContext, useMemo } from 'react'
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
 
-type Task = {
-  id: number
-  task: string
-  duration: number
-  start: string
-  status: string
-}
+import { HistoryContainer, HistoryList, Status } from './styles'
 
-const tasks: Task[] = [
-  {
-    id: 1,
-    task: 'tarefa',
-    duration: 25,
-    start: '2023-01-10T10:00:00',
-    status: 'done',
-  },
-  {
-    id: 2,
-    task: 'tarefa',
-    duration: 20,
-    start: '2023-01-11T10:00:00',
-    status: 'in_progress',
-  },
-  {
-    id: 3,
-    task: 'tarefa',
-    duration: 20,
-    start: '2023-01-11T10:00:00',
-    status: 'stopped',
-  },
-]
+import { CycleContext } from '../../contexts/CyclesContext'
+import { ICycle } from '../../reducers/cycles/reducer'
 
 const STATUS = {
   done: 'Concluído',
@@ -46,7 +20,9 @@ const STATUS = {
 } as const
 
 export function History() {
-  const columns = useMemo<ColumnDef<Task>[]>(
+  const { cycles } = useContext(CycleContext)
+
+  const columns = useMemo<ColumnDef<ICycle>[]>(
     () => [
       {
         header: 'Tarefa',
@@ -55,13 +31,20 @@ export function History() {
       },
       {
         header: 'Duração',
-        accessorKey: 'duration',
+        accessorKey: 'minutesAmount',
         cell: (info) => <span>{info.getValue<number>()} minutos</span>,
       },
       {
         header: 'Início',
-        accessorKey: 'start',
-        cell: (info) => info.getValue(),
+        accessorKey: 'startDate',
+        cell: (info) => (
+          <span>
+            {formatDistanceToNow(info.getValue<Date>(), {
+              addSuffix: true,
+              locale: ptBR,
+            })}
+          </span>
+        ),
       },
       {
         header: 'Status',
@@ -78,7 +61,7 @@ export function History() {
 
   const table = useReactTable({
     columns,
-    data: tasks,
+    data: cycles,
     getCoreRowModel: getCoreRowModel(),
     debugTable: true,
   })

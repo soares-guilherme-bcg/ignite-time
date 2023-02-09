@@ -1,57 +1,57 @@
-import { Play } from 'phosphor-react'
+import { useContext } from 'react'
+import { HandPalm, Play } from 'phosphor-react'
+import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
+
+import { Form } from './components/Form'
+import { CountDown } from './components/Countdown'
+
 import {
-  CountdownContainer,
-  FormContainer,
   HomeContainer,
-  MinutesInput,
-  Separator,
   StartCountDownButton,
-  TextInput,
+  StopCountDownButton,
 } from './styles'
 
+import { CycleContext } from '../../contexts/CyclesContext'
+
+interface IForm {
+  task: string
+  minutesAmount: number
+}
+
 export function Home() {
+  const { activeCycle, interruptCycle, createCycle } = useContext(CycleContext)
+
+  const methods = useForm<IForm>({
+    defaultValues: { task: '', minutesAmount: 5 },
+  })
+
+  const { watch, handleSubmit, reset } = methods
+
+  const handleCreateTask: SubmitHandler<IForm> = (data) => {
+    createCycle(data)
+    reset()
+  }
+
+  const isTaskInputFilled = !watch('task')
+
   return (
     <HomeContainer>
-      <form action="">
-        <FormContainer>
-          <label htmlFor="task">Vou trabalhar em</label>
-          <TextInput
-            id="task"
-            list="task-suggestions"
-            placeholder="Dê um nome para o seu projeto"
-          />
-
-          <datalist id="task-suggestions">
-            <option value="Projeto 1" />
-            <option value="Projeto 2" />
-            <option value="Projeto 3" />
-          </datalist>
-
-          <label htmlFor="minutes_amount">durante</label>
-          <MinutesInput
-            id="minutes_amount"
-            type="number"
-            placeholder="00"
-            step={5}
-            min={5}
-            max={60}
-          />
-
-          <span>minutos.</span>
-        </FormContainer>
-
-        <CountdownContainer>
-          <span>0</span>
-          <span>0</span>
-          <Separator>:</Separator>
-          <span>0</span>
-          <span>0</span>
-        </CountdownContainer>
-
-        <StartCountDownButton type="submit">
-          <Play size={24} />
-          Começar
-        </StartCountDownButton>
+      <form onSubmit={handleSubmit(handleCreateTask)}>
+        <FormProvider {...methods}>
+          <Form />
+        </FormProvider>
+        <CountDown />
+        {!activeCycle ? (
+          <StartCountDownButton type="submit" disabled={isTaskInputFilled}>
+            <Play size={24} />
+            Começar
+          </StartCountDownButton>
+        ) : (
+          <StopCountDownButton type="button" onClick={interruptCycle}>
+            <HandPalm size={24} />
+            Interromper
+          </StopCountDownButton>
+        )}
       </form>
     </HomeContainer>
   )
